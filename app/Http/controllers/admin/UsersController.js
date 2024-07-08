@@ -1,5 +1,6 @@
 import User from "../../../Models/User.js";
 import bcrypt from "bcrypt";
+import Reservation from "../../../Models/Reservation.js";
 
 class UserController {
     pageResultCount = 12;
@@ -40,9 +41,14 @@ class UserController {
         const user = await User.findOne({_id: req.params.id}, {
             name: 1, email: 1, age: 1, createdAt: 1, isAdmin: 1
         });
+        const reservations = await Reservation.find({userId: user._id});
+
 
         if (user){
-            return res.status(200).json(user);
+            return res.status(200).json({
+                'user': user,
+                'reservations': reservations,
+            });
         }
 
         res.status(404).json({ msg: 'User not found' });

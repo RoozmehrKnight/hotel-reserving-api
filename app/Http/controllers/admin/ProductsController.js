@@ -1,4 +1,5 @@
 import Product from "../../../Models/Product.js";
+import Reservation from "../../../Models/Reservation.js";
 
 class ProductsController {
     pageResultCount = 12;
@@ -38,9 +39,13 @@ class ProductsController {
 
     async show(req, res){
         const product = await Product.findOne({_id: req.params.id});
+        const reservations = await Reservation.find({productId: product._id});
 
         if (product){
-            return res.status(200).json(product);
+            return res.status(200).json({
+                'product': product,
+                'reservations': reservations,
+            });
         }
 
         res.status(404).json({ msg: 'Product not found' });
