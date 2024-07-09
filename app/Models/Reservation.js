@@ -21,6 +21,16 @@ const reservationSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    date: {
+        startDate: {
+            type: Date,
+            required: true
+        },
+        endDate: {
+            type: Date,
+            required: true
+        }
+    },
     createdAt: {
         type: Date,
         immutable: true,

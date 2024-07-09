@@ -8,11 +8,21 @@ class ProductsController {
     async checkout(req, res){
         const product = await Product.findOne({_id: req.body.productId});
 
+        if (! await isProductFree(product, req.body.startDate, req.body.endDate)){
+            return res.status(403).json({
+                msg: "reservation date is not available"
+            });
+        }
+
         // make reservation with "false" status
         const reservation = await Reservation.create({
             userId: req.user.id,
             productId: product.id,
             price: product.price,
+            date: {
+                startDate: req.body.startDate,
+                endDate: req.body.endDate
+            }
         });
 
         // prepare payment gateway
@@ -47,6 +57,15 @@ class ProductsController {
 
         res.redirect(`http://${process.env.FRONTEND_DOMAIN}`);
     }
+}
+
+async function isProductFree(product, startDate, endDate){
+    const reservation = await Reservation.findOne({
+        "date.startDate": { $gte: startDate },
+        "date.endDate": { $lte: endDate }
+    });
+
+    return reservation == null;
 }
 
 export default new ProductsController();
