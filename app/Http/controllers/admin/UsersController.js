@@ -38,11 +38,8 @@ class UserController {
     }
 
     async show(req, res){
-        const user = await User.findOne({_id: req.params.id}, {
-            name: 1, email: 1, age: 1, createdAt: 1, isAdmin: 1
-        });
+        const user = await User.findOne({_id: req.params.id});
         const reservations = await Reservation.find({userId: user._id});
-
 
         if (user){
             return res.status(200).json({
