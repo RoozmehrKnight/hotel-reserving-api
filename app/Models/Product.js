@@ -26,6 +26,14 @@ const productSchema = new mongoose.Schema({
         immutable: true,
         required: true,
     },
+    kind: {
+        type: String,
+        required: false,
+    },
+    imageUrl:{
+        type: String,
+        required: false,
+    },
     createdAt: {
         type: Date,
         immutable: true,
@@ -53,4 +61,4 @@ productSchema.pre('validate', async function (next) {
     next();
 });
 
-export default mongoose.model('Product', productSchema);;
+export default mongoose.model('Product', productSchema);

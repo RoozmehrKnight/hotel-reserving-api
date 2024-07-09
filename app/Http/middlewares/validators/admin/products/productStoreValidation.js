@@ -7,6 +7,9 @@ export default [
     body('slug')
         .optional()
         .isString().withMessage('Slug must be a string'),
+    body('kind')
+        .notEmpty().withMessage("Kind is required").bail()
+        .isString().withMessage('Kind must be a string'),
     body('description')
         .notEmpty().withMessage("Description is required").bail()
         .isString().withMessage('Description must be a string'),

@@ -24,7 +24,9 @@ class ProductsController {
         const data = {
             title: req.body.title,
             price: req.body.price,
+            kind: req.body.kind,
             description: req.body.description,
+            imageUrl: req.file.path,
         };
 
         if (req.body.slug)
