@@ -2,7 +2,7 @@ import Product from "../../Models/Product.js";
 import Reservation from "../../Models/Reservation.js";
 import reservation from "../../Models/Reservation.js";
 
-class ProductsController {
+class ProductsSingleController {
 
     async show(req, res){
         const product = await Product.findOne({slug: req.params.slug});
@@ -22,4 +22,4 @@ class ProductsController {
     }
 }
 
-export default new ProductsController();
+export default new ProductsSingleController();

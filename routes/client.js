@@ -7,6 +7,8 @@ import ifAuthenticated from "../app/Http/middlewares/ifAuthenticated.js";
 import isAuthenticated from "../app/Http/middlewares/isAuthenticated.js";
 import ReservationController from "../app/Http/controllers/ReservationController.js";
 import reservationCheckoutValidation from "../app/Http/middlewares/validators/reservationCheckoutValidation.js";
+import ProductArchiveController from "../app/Http/controllers/ProductArchiveController.js";
+import productArchiveValidation from "../app/Http/middlewares/validators/productArchiveValidation.js";
 
 const router = express.Router()
 
@@ -19,6 +21,8 @@ router.post('/auth/login', userLoginValidator, AuthController.login);
 router.post('/auth/register', userRegisterValidation, AuthController.register);
 
 router.get('/products/:slug', ifAuthenticated, ProductSingleController.show);
+
+router.post('/products/search', productArchiveValidation, ProductArchiveController.search);
 
 // payment system
 router.post('/reservations/checkout', isAuthenticated, reservationCheckoutValidation, ReservationController.checkout);
