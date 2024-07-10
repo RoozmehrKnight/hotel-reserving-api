@@ -39,7 +39,19 @@ class UserController {
 
     async show(req, res){
         const user = await User.findOne({_id: req.params.id});
-        const reservations = await Reservation.find({userId: user._id});
+        const reservations = await Reservation.aggregate([
+            {
+                $match: {userId: user._id}
+            },
+            {
+                $lookup: {
+                    from: 'products',
+                    localField: 'productId',
+                    foreignField: '_id',
+                    as: 'productDetails'
+                }
+            },
+        ]);
 
         if (user){
             return res.status(200).json({

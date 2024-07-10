@@ -41,17 +41,16 @@ class ProductsController {
 
     async show(req, res){
         const product = await Product.findOne({_id: req.params.id});
-        // const reservations = await Reservation.find({productId: product._id});
         const reservations = await Reservation.aggregate([
             {
                 $match: { productId: product._id }
             },
             {
                 $lookup: {
-                    from: 'users', // the name of the collection you are joining with
-                    localField: 'userId', // field from the Reservation collection
-                    foreignField: '_id', // field from the Product collection
-                    as: 'userDetails' // the name of the field where the joined documents will be added
+                    from: 'users',
+                    localField: 'userId',
+                    foreignField: '_id',
+                    as: 'userDetails'
                 }
             },
         ]);
