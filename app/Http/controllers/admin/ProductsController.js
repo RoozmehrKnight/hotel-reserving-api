@@ -50,9 +50,22 @@ class ProductsController {
                     from: 'users',
                     localField: 'userId',
                     foreignField: '_id',
-                    as: 'userDetails'
+                    as: 'userDetails',
+                    pipeline: [
+                        {
+                            $project: {
+                                _id: 1,
+                                name: 1
+                            }
+                        }
+                    ],
                 }
             },
+            {
+                $addFields: {
+                    userDetails: { $arrayElemAt: ['$userDetails', 0] }
+                }
+            }
         ]);
 
         if (product){

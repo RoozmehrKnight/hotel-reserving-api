@@ -48,9 +48,22 @@ class UserController {
                     from: 'products',
                     localField: 'productId',
                     foreignField: '_id',
-                    as: 'productDetails'
+                    as: 'productDetails',
+                    pipeline: [
+                        {
+                            $project: {
+                                _id: 1,
+                                title: 1
+                            }
+                        }
+                    ],
                 }
             },
+            {
+                $addFields: {
+                    productDetails: { $arrayElemAt: ['$productDetails', 0] }
+                }
+            }
         ]);
 
         if (user){
