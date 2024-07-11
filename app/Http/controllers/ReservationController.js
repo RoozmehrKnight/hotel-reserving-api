@@ -14,11 +14,13 @@ class ProductsController {
             });
         }
 
+        let dayCount = Math.round((req.body.endDate - req.body.startDate) / (3600 * 24 * 1000));
+
         // make reservation with "false" status
         const reservation = await Reservation.create({
             userId: req.user.id,
             productId: product.id,
-            price: product.price,
+            price: product.price * dayCount,
             date: {
                 startDate: req.body.startDate,
                 endDate: req.body.endDate
